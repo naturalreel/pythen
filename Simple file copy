@@ -1,3 +1,20 @@
+import os
+import multiprocessing
+
+#文件夹拷贝器,带上显示进度
+
+def copy_file(q,file_name,old_folder_name,new_folder_name):
+    """完成文件的复制"""
+    #不会显示异常
+    old_f=open(old_folder_name+"/"+file_name,"rb")
+    content=old_f.read()
+    old_f.close()
+    new_f=open(new_folder_name+'/'+file_name,"wb")
+    new_f.write(content)
+    new_f.close()
+    #如果拷贝完了文件,name就向队列写入一个消息,表示已经完成
+    q.put(file_name)
+def main():
     #1.获取用户要copy的文件夹的名字
     old_folder_name=input("请输入要copy的文件夹的名字:")
     #2.创建一个新的文件夹
@@ -31,3 +48,5 @@
         if copy_ok_num>=all_file_num:
             print("")
             break
+if __name__=="__main__":
+    main()
